@@ -1,3 +1,4 @@
+// src/FlightMap/Widgets/QGCArtificialHorizon.qml
 import QtQuick
 
 Item {

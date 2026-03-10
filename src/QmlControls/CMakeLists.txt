@@ -246,7 +246,12 @@ qt_add_qml_module(QGroundControlControlsModule
 
         # src/QtLocationPlugin/QMLControl/
         OfflineMapEditor.qml
-
+        LiquidGlassButton.qml
+        LiquidGlassCard.qml
+        LiquidGlassChip.qml
+        LiquidGlassDrawer.qml
+        LiquidGlassPill.qml
+        
         ScreenTools.qml
     NO_PLUGIN
 )

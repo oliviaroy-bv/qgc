@@ -152,6 +152,7 @@ public:
     DEFINE_QGC_COLOR(groupBorder,                   setGroupBorder)
     DEFINE_QGC_COLOR(photoCaptureButtonColor,       setPhotoCaptureButtonColor)
     DEFINE_QGC_COLOR(videoCaptureButtonColor,       setVideoCaptureButtonColor)
+    DEFINE_QGC_COLOR(BonVBlueColor,                 setBonVBlueColor)
 
      QGCPalette(QObject* parent = nullptr);
     ~QGCPalette();

@@ -1,3 +1,4 @@
+// src/FlyView/TelemetryValuesBar.qml
 import QtQuick
 import QtQuick.Layouts
 

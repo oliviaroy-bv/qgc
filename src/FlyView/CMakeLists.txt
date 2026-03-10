@@ -69,5 +69,6 @@ qt_add_qml_module(FlyViewModule
         VehicleWarnings.qml
         VirtualJoystick.qml
         VTOLChecklist.qml
+        FlyViewServoPanel.qml
     NO_PLUGIN
 )

@@ -1,3 +1,4 @@
+// src/FlightMap/Widgets/QGCAttitudeWidget.qml
 import QtQuick
 import QtQuick.Effects
 
@@ -23,7 +24,7 @@ Item {
     Item {
         id:             instrument
         anchors.fill:   parent
-        visible:        false
+        visible:        true
 
         //----------------------------------------------------
         //-- Artificial Horizon
@@ -93,7 +94,7 @@ Item {
         width: instrument.width
         height: instrument.height
         layer.enabled: true
-        visible: false
+        visible: true
 
         Rectangle {
             width: parent.width

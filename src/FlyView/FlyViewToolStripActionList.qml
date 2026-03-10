@@ -5,7 +5,6 @@ import QGroundControl.Controls
 
 ToolStripActionList {
     id: _root
-
     signal displayPreFlightChecklist
 
     model: [
@@ -35,11 +34,63 @@ ToolStripActionList {
                 }
             }
         },
-        PreFlightCheckListShowAction { onTriggered: displayPreFlightChecklist() },
+        PreFlightCheckListShowAction { onTriggered: actionListRoot.displayPreFlightChecklist() },
         GuidedActionTakeoff { },
         GuidedActionLand { },
         GuidedActionRTL { },
         GuidedActionPause { },
+
+        ToolStripAction {
+            id:                 refreshCameraAction
+            text:               qsTr("Refresh")
+            iconSource:         "qrc:/res/refresh.svg"
+            visible:            true
+            enabled:            QGroundControl.multiVehicleManager.activeVehicle !== null
+            
+            onTriggered: {
+                console.log("🔄 Refreshing camera feed...")
+                
+                // Restart video stream
+                if (QGroundControl.videoManager) {
+                    QGroundControl.videoManager.restartVideo()
+                    console.log("Video stream restarted")
+                }
+                
+                // Show notification (optional)
+                mainWindow.showMessageArea(
+                    qsTr("Camera Refresh"),
+                    qsTr("Video stream restarted"),
+                    StandardButton.Ok
+                )
+            }
+        },
+
+        ToolStripAction {
+            id:                 servoAction
+            text:               qsTr("Servo")
+            iconSource:         "qrc:/res/servo.svg"
+            visible:            QGroundControl.multiVehicleManager.activeVehicle !== null
+            enabled:            QGroundControl.multiVehicleManager.activeVehicle !== null
+            dropPanelComponent: Component {
+                FlyViewServoPanel {}
+            }
+            onTriggered: {
+                console.log("⚙️ Servo control clicked")
+                
+                // Placeholder for servo functionality
+                // You can add your servo control logic here
+                
+                // Example: Show a dialog
+                mainWindow.showMessageArea(
+                    qsTr("Servo Control"),
+                    qsTr("Servo control activated\nVehicle: " + 
+                        (QGroundControl.multiVehicleManager.activeVehicle ? 
+                        QGroundControl.multiVehicleManager.activeVehicle.id : "None")),
+                    StandardButton.Ok
+                )
+            }
+        },
+
         FlyViewAdditionalActionsButton { },
         FlyViewGripperButton { }
     ]

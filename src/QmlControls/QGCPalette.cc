@@ -81,6 +81,7 @@ void QGCPalette::_buildMap()
     DECLARE_QGC_NONTHEMED_COLOR(toolStripFGColor,           "#707070", "#ffffff")
     DECLARE_QGC_NONTHEMED_COLOR(photoCaptureButtonColor,    "#707070", "#ffffff")
     DECLARE_QGC_NONTHEMED_COLOR(videoCaptureButtonColor,    "#f89a9e", "#f32836")
+    DECLARE_QGC_NONTHEMED_COLOR(BonVBlueColor,              "#002634", "#002634")
 
     // Colors not affecting by theming or enable/disable
     DECLARE_QGC_SINGLE_COLOR(mapWidgetBorderLight,          "#ffffff")

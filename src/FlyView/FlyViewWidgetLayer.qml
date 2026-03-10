@@ -1,3 +1,4 @@
+// src/FlyView/FlyViewWidgetLayer.qml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs

@@ -3,6 +3,8 @@
 #include "QGCLogging.h"
 #include "QGCLoggingCategory.h"
 #include "Platform.h"
+// #include "GimbalTCPSender.h"
+#include "Gimbal/GimbalUDPSender.h"
 
 #ifdef QGC_UNITTEST_BUILD
     #include "UnitTestList.h"
@@ -26,6 +28,8 @@ int main(int argc, char *argv[])
     QGCApplication app(argc, argv, args);
 
     QGCLogging::installHandler();
+    // qmlRegisterType<GimbalTCPSender>("QGroundControl.Gimbal", 1, 0, "GimbalTCPSender");
+    qmlRegisterType<GimbalUDPSender>("QGroundControl.Gimbal", 1, 0, "GimbalUDPSender");
 
     Platform::setupPostApp();
 

@@ -1,3 +1,4 @@
+// src/FlightMap/Widgets/QGCCompassWidget.qml
 import QtQuick
 
 import QGroundControl
@@ -68,6 +69,16 @@ Rectangle {
         CompassDial {
             anchors.fill:   parent
             visible:        !usedByMultipleVehicleList
+
+            MouseArea {
+                anchors.fill:   parent
+                drag.target:    parent
+                drag.minimumX:  0
+                drag.maximumX:  mainWindow.width - parent.width
+                drag.minimumY:  0
+                drag.maximumY:  mainWindow.height - parent.height
+            }
+
         }
 
         CompassHeadingIndicator {

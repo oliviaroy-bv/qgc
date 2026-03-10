@@ -164,4 +164,30 @@ Item {
         guidedValueSlider:  _guidedValueSlider
         visible:            !QGroundControl.videoManager.fullScreen
     }
+
+    TelemetryValuesBar {
+        id:                       bottomCenterTelemetryBar
+        anchors.bottom:           parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin:     7
+        z:                        QGroundControl.zOrderWidgets
+        specificVehicleForCard:   null
+        settingsGroup:            factValueGrid.telemetryBarSettingsGroup
+        visible:                  !QGroundControl.videoManager.fullScreen
+    }
+    
+    
+    // // Gimbal Control Widget - Bottom Right
+    // Loader {
+    //     id:                     gimbalControlLoader
+    //     anchors.right:          parent.right
+    //     anchors.bottom:         parent.bottom
+    //     // anchors.rightMargin:    20
+    //     // anchors.bottomMargin:   100
+    //     anchors.rightMargin:    ScreenTools.defaultFontPixelWidth * 2
+    //     anchors.bottomMargin:   ScreenTools.defaultFontPixelHeight * 10
+    //     source:                 "qrc:/qml/GimbalControl.qml"
+    //     visible:                true
+    //     z:                      QGroundControl.zOrderWidgets
+    // }
 }

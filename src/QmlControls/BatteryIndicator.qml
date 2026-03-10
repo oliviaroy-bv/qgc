@@ -570,3 +570,227 @@ Item {
         }
     }
 }
+
+
+// // Modern glass battery status panel
+// Rectangle {
+//     width: 280
+//     height: contentCol.height + 32
+//     radius: 12
+//     color: "transparent"
+    
+//     // Glass background
+//     Item {
+//         id: glassBack
+//         anchors.fill: parent
+//         z: 0
+        
+//         layer.enabled: true
+//         layer.effect: OpacityMask {
+//             maskSource: Rectangle {
+//                 width: glassBack.width
+//                 height: glassBack.height
+//                 radius: 12
+//             }
+//         }
+        
+//         Rectangle {
+//             anchors.fill: parent
+//             color: Qt.rgba(0.02, 0.024, 0.045, 0.88)
+//         }
+        
+//         Rectangle {
+//             anchors.top: parent.top
+//             anchors.left: parent.left
+//             anchors.right: parent.right
+//             height: parent.height * 0.25
+//             gradient: Gradient {
+//                 GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.06) }
+//                 GradientStop { position: 1.0; color: "transparent" }
+//             }
+//         }
+//     }
+    
+//     // Border
+//     Rectangle {
+//         anchors.fill: parent
+//         color: "transparent"
+//         radius: 12
+//         border.color: Qt.rgba(1, 1, 1, 0.12)
+//         border.width: 1
+//         z: 1
+//     }
+    
+//     Column {
+//         id: contentCol
+//         anchors.centerIn: parent
+//         width: parent.width - 32
+//         spacing: 16
+//         z: 2
+        
+//         // Header with icon
+//         Row {
+//             width: parent.width
+//             spacing: 12
+            
+//             // Battery icon with glow
+//             Item {
+//                 width: 32
+//                 height: 32
+                
+//                 Rectangle {
+//                     anchors.centerIn: parent
+//                     width: 28
+//                     height: 18
+//                     radius: 3
+//                     color: "transparent"
+//                     border.color: batteryColor
+//                     border.width: 2
+                    
+//                     property color batteryColor: {
+//                         var percent = _activeVehicle ? _activeVehicle.battery.percentRemaining.value : 100
+//                         if (percent > 50) return "#4caf50"
+//                         if (percent > 20) return "#ff9800"
+//                         return "#f44336"
+//                     }
+                    
+//                     Rectangle {
+//                         anchors.right: parent.right
+//                         anchors.rightMargin: -4
+//                         anchors.verticalCenter: parent.verticalCenter
+//                         width: 3
+//                         height: 8
+//                         radius: 1.5
+//                         color: parent.batteryColor
+//                     }
+                    
+//                     Rectangle {
+//                         anchors.left: parent.left
+//                         anchors.leftMargin: 2
+//                         anchors.verticalCenter: parent.verticalCenter
+//                         anchors.top: parent.top
+//                         anchors.topMargin: 2
+//                         anchors.bottom: parent.bottom
+//                         anchors.bottomMargin: 2
+//                         width: (parent.width - 6) * (_activeVehicle ? _activeVehicle.battery.percentRemaining.value / 100 : 1.0)
+//                         radius: 2
+//                         color: parent.batteryColor
+                        
+//                         Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutQuad } }
+//                         Behavior on color { ColorAnimation { duration: 300 } }
+//                     }
+                    
+//                     layer.enabled: true
+//                     layer.effect: Glow {
+//                         radius: 8
+//                         samples: 17
+//                         color: parent.batteryColor
+//                         transparentBorder: true
+//                     }
+//                 }
+//             }
+            
+//             Column {
+//                 anchors.verticalCenter: parent.verticalCenter
+//                 spacing: 2
+                
+//                 Text {
+//                     text: "Battery " + (_activeVehicle ? _activeVehicle.id : "0")
+//                     font.pixelSize: 13
+//                     font.weight: Font.SemiBold
+//                     color: "#00d4ff"
+//                 }
+                
+//                 Text {
+//                     text: _activeVehicle ? _activeVehicle.battery.percentRemaining.value.toFixed(0) + "%" : "100%"
+//                     font.pixelSize: 22
+//                     font.weight: Font.Bold
+//                     color: "#ffffff"
+//                 }
+//             }
+//         }
+        
+//         // Divider
+//         Rectangle {
+//             width: parent.width
+//             height: 1
+//             color: Qt.rgba(1, 1, 1, 0.08)
+//         }
+        
+//         // Stats grid
+//         Grid {
+//             width: parent.width
+//             columns: 2
+//             rowSpacing: 12
+//             columnSpacing: 20
+            
+//             // Charge State
+//             Column {
+//                 spacing: 4
+//                 Text {
+//                     text: "Charge State"
+//                     font.pixelSize: 10
+//                     font.letterSpacing: 0.5
+//                     color: Qt.rgba(1, 1, 1, 0.5)
+//                 }
+//                 Text {
+//                     text: _activeVehicle && _activeVehicle.battery.chargeState.value !== 0 ? "Charging" : "Ok"
+//                     font.pixelSize: 13
+//                     font.weight: Font.Medium
+//                     color: "#4caf50"
+//                 }
+//             }
+            
+//             // Remaining
+//             Column {
+//                 spacing: 4
+//                 Text {
+//                     text: "Remaining"
+//                     font.pixelSize: 10
+//                     font.letterSpacing: 0.5
+//                     color: Qt.rgba(1, 1, 1, 0.5)
+//                 }
+//                 Text {
+//                     text: _activeVehicle ? _activeVehicle.battery.percentRemaining.value.toFixed(0) + " %" : "100 %"
+//                     font.pixelSize: 13
+//                     font.weight: Font.Medium
+//                     color: "#00d4ff"
+//                 }
+//             }
+            
+//             // Voltage
+//             Column {
+//                 spacing: 4
+//                 Text {
+//                     text: "Voltage"
+//                     font.pixelSize: 10
+//                     font.letterSpacing: 0.5
+//                     color: Qt.rgba(1, 1, 1, 0.5)
+//                 }
+//                 Text {
+//                     text: _activeVehicle ? _activeVehicle.battery.voltage.valueString + " V" : "12.60 V"
+//                     font.pixelSize: 13
+//                     font.weight: Font.Medium
+//                     color: "#ffffff"
+//                 }
+//             }
+            
+//             // Consumed
+//             Column {
+//                 spacing: 4
+//                 Text {
+//                     text: "Consumed"
+//                     font.pixelSize: 10
+//                     font.letterSpacing: 0.5
+//                     color: Qt.rgba(1, 1, 1, 0.5)
+//                 }
+//                 Text {
+//                     text: _activeVehicle ? _activeVehicle.battery.mahConsumed.valueString + " mAh" : "0 mAh"
+//                     font.pixelSize: 13
+//                     font.weight: Font.Medium
+//                     color: "#ffffff"
+//                 }
+//             }
+//         }
+//     }
+// }

@@ -1,3 +1,4 @@
+// C:\BV_GCS\qgc\src\QmlControls\ToolStripDropPanel.qml
 import QtQuick
 import QtQuick.Controls
 

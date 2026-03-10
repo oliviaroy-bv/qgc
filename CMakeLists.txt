@@ -4,6 +4,8 @@
 
 cmake_minimum_required(VERSION 3.25)
 
+option(QGC_GST_STREAMING "Enable GStreamer video streaming" ON)
+
 # ----------------------------------------------------------------------------
 # CMake Module Paths
 # ----------------------------------------------------------------------------
