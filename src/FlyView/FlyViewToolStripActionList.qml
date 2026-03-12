@@ -66,6 +66,18 @@ ToolStripActionList {
         },
 
         ToolStripAction {
+            id:                 motorTestAction
+            text:               qsTr("Motor\nTest")
+            iconSource:         "MotorTest.svg"
+            // Only show when a vehicle is connected
+            visible:            QGroundControl.multiVehicleManager.activeVehicle !== null
+            enabled:            QGroundControl.multiVehicleManager.activeVehicle !== null
+            dropPanelComponent: Component {
+                FlyViewMotorTest {}
+            }
+        },
+
+        ToolStripAction {
             id:                 servoAction
             text:               qsTr("Servo")
             iconSource:         "qrc:/res/servo.svg"

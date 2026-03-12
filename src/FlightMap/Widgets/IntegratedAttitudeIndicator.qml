@@ -1,3 +1,4 @@
+// src/FlightMap/Widgets/IntegratedAttitudeIndicator.qml
 import QtQuick
 
 import QGroundControl

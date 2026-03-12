@@ -1,3 +1,4 @@
+// src/FlightMap/Widgets/HorizontalCompassAttitude.qml
 import QtQuick
 
 import QGroundControl

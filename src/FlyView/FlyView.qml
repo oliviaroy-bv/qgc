@@ -165,15 +165,61 @@ Item {
         visible:            !QGroundControl.videoManager.fullScreen
     }
 
+    // TelemetryValuesBar {
+    //     id:                       bottomCenterTelemetryBar
+    //     anchors.bottom:           parent.bottom
+    //     anchors.horizontalCenter: parent.horizontalCenter
+    //     anchors.bottomMargin:     7
+    //     z:                        QGroundControl.zOrderWidgets
+    //     specificVehicleForCard:   null
+    //     settingsGroup:            factValueGrid.telemetryBarSettingsGroup
+    //     visible:                  !QGroundControl.videoManager.fullScreen
+    // }
+
     TelemetryValuesBar {
-        id:                       bottomCenterTelemetryBar
+        id: bottomCenterTelemetryBar
+
+        // ── Default position (anchored to bottom-centre) ──────────────────────────
+        // These are overridden to absolute x/y when unlocked and dragged.
         anchors.bottom:           parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottomMargin:     7
-        z:                        QGroundControl.zOrderWidgets
-        specificVehicleForCard:   null
-        settingsGroup:            factValueGrid.telemetryBarSettingsGroup
-        visible:                  !QGroundControl.videoManager.fullScreen
+
+        z:             QGroundControl.zOrderWidgets
+        mapSourceItem: _map //flightMap          // ← use your actual map item id
+        visible:       !QGroundControl.videoManager.fullScreen
+
+        // ── Handle unlock → clear anchors so x/y can be set freely ──────────────
+        onLockChanged: function(locked) {
+            if (!locked) {
+                // Snapshot current screen position BEFORE clearing anchors
+                var absX = bottomCenterTelemetryBar.x
+                var absY = bottomCenterTelemetryBar.y
+
+                // Clear all anchors — otherwise Qt ignores x/y assignments
+                bottomCenterTelemetryBar.anchors.bottom           = undefined
+                bottomCenterTelemetryBar.anchors.horizontalCenter = undefined
+                bottomCenterTelemetryBar.anchors.bottomMargin     = 0
+
+                // Place bar at exact same pixel position it was at
+                bottomCenterTelemetryBar.x = absX
+                bottomCenterTelemetryBar.y = absY
+
+            } else {
+                // Re-lock: keep x/y as-is (anchors stay cleared so bar stays put)
+                // Anchors are NOT restored — bar just sits at its current x/y.
+                // To restore to bottom-centre on lock, uncomment the 3 lines below:
+                // bottomCenterTelemetryBar.anchors.bottom           = parent.bottom
+                // bottomCenterTelemetryBar.anchors.horizontalCenter = parent.horizontalCenter
+                // bottomCenterTelemetryBar.anchors.bottomMargin     = 7
+            }
+        }
+
+        // ── Apply x/y from drag ───────────────────────────────────────────────────
+        onDragPositionChanged: function(px, py) {
+            bottomCenterTelemetryBar.x = px
+            bottomCenterTelemetryBar.y = py
+        }
     }
     
     
