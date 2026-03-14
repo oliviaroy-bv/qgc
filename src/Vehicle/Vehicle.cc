@@ -2358,16 +2358,16 @@ void Vehicle::setCurrentMissionSequence(int seq)
     );
 }
 
-void Vehicle::sendMavCommand(int compId, MAV_CMD command, bool showError, float param1, float param2, float param3, float param4, float param5, float param6, float param7)
-{
-    _sendMavCommandWorker(false,            // commandInt
-                          showError,
-                          nullptr,          // no handlers
-                          compId,
-                          command,
-                          MAV_FRAME_GLOBAL,
-                          param1, param2, param3, param4, param5, param6, param7);
-}
+// void Vehicle::sendMavCommand(int compId, MAV_CMD command, bool showError, float param1, float param2, float param3, float param4, float param5, float param6, float param7)
+// {
+//     _sendMavCommandWorker(false,            // commandInt
+//                           showError,
+//                           nullptr,          // no handlers
+//                           compId,
+//                           command,
+//                           MAV_FRAME_GLOBAL,
+//                           param1, param2, param3, param4, param5, param6, param7);
+// }
 
 void Vehicle::sendMavCommandDelayed(int compId, MAV_CMD command, bool showError, int milliseconds, float param1, float param2, float param3, float param4, float param5, float param6, float param7)
 {
@@ -3187,6 +3187,22 @@ void Vehicle::setSoloFirmware(bool soloFirmware)
 void Vehicle::motorTest(int motor, int percent, int timeoutSecs, bool showError)
 {
     sendMavCommand(_defaultComponentId, MAV_CMD_DO_MOTOR_TEST, showError, motor, MOTOR_TEST_THROTTLE_PERCENT, percent, timeoutSecs, 0, MOTOR_TEST_ORDER_BOARD);
+}
+
+void Vehicle::servoTest(int servoNum, int pwmValue, bool showError)
+{
+    sendMavCommand(_defaultComponentId, MAV_CMD_DO_SET_SERVO, showError, servoNum, pwmValue, 0, 0, 0, 0, 0);
+}
+
+void Vehicle::sendMavCommand(int compId, MAV_CMD command, bool showError, float param1, float param2, float param3, float param4, float param5, float param6, float param7)
+{
+    _sendMavCommandWorker(false,            // commandInt
+                          showError,
+                          nullptr,          // no handlers
+                          compId,
+                          command,
+                          MAV_FRAME_GLOBAL,
+                          param1, param2, param3, param4, param5, param6, param7);
 }
 
 QString Vehicle::brandImageIndoor() const

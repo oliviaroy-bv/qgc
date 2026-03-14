@@ -1,11 +1,7 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-</g>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="32" cy="32" r="6" fill="white"/>
+  <path d="M32 4 C42 4 48 10 48 16 C48 22 40 24 32 24 C24 24 16 22 16 16 C16 10 22 4 32 4 Z" fill="white"/>
+  <path d="M60 32 C60 42 54 48 48 48 C42 48 40 40 40 32 C40 24 42 16 48 16 C54 16 60 22 60 32 Z" fill="white"/>
+  <path d="M32 60 C22 60 16 54 16 48 C16 42 24 40 32 40 C40 40 48 42 48 48 C48 54 42 60 32 60 Z" fill="white"/>
+  <path d="M4 32 C4 22 10 16 16 16 C22 16 24 24 24 32 C24 40 22 48 16 48 C10 48 4 42 4 32 Z" fill="white"/>
 </svg>

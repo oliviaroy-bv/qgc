@@ -7,6 +7,7 @@ import Qt5Compat.GraphicalEffects
 
 import QGroundControl
 import QGroundControl.Controls
+// import MAVLink
 
 Item {
     id:     root
@@ -240,7 +241,7 @@ Item {
                             id:             midMouse
                             anchors.fill:   parent
                             hoverEnabled:   true
-                            onClicked:      sendServoCommand(servoNumber, 1500)
+                            onClicked:     _activeVehicle.servoTest(servoNumber, parseInt(midPwm.text), true)
                         }
                     }
 
@@ -472,11 +473,23 @@ Item {
         console.log("Servo", servoNum, "→", pwmValue)
         _activeVehicle.sendMavCommand(
             _activeVehicle.defaultComponentId,
-            MAV_CMD_DO_SET_SERVO,
+            183,
             true,
             servoNum,
             pwmValue,
             0, 0, 0, 0, 0
         )
+
+        // _activeVehicle.commandLong(
+        //         MAV_CMD_DO_SET_SERVO
+        //         servoNum,       // param1
+        //         pwmValue,       // param2
+        //         0,
+        //         0,
+        //         0,
+        //         0,
+        //         0
+        //     )
+
     }
 }

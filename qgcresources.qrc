@@ -80,7 +80,7 @@
         <file alias="refresh.svg">resources/refresh.svg</file>
         <file alias="servo.svg">resources/servo.svg</file>
         <file alias="BVLogo.ico">resources/icons/BVLogo.ico</file>
-        <file alias="MotorTest.svg">resources/motortest.svg</file>
+        <file alias="MotorTest.svg">resources/MotorTest.svg</file>
     </qresource>
     <qresource prefix="/res/firmware">
         <file alias="3drradio.png">resources/firmware/3drradio.png</file>
