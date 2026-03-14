@@ -224,7 +224,7 @@ Item {
                             id:             lowMouse
                             anchors.fill:   parent
                             hoverEnabled:   true
-                            onClicked:      sendServoCommand(servoNumber, parseInt(lowPwm.text))
+                            onClicked:      _activeVehicle.servoTest(servoNumber, parseInt(lowPwm.text), true)   //sendServoCommand(servoNumber, parseInt(lowPwm.text))
                         }
                     }
 
@@ -241,7 +241,7 @@ Item {
                             id:             midMouse
                             anchors.fill:   parent
                             hoverEnabled:   true
-                            onClicked:     _activeVehicle.servoTest(servoNumber, parseInt(midPwm.text), true)
+                            onClicked:     _activeVehicle.servoTest(servoNumber, (parseInt(highPwm.text) + parseInt(lowPwm.text)) / 2, true)
                         }
                     }
 
@@ -258,7 +258,7 @@ Item {
                             id:             highMouse
                             anchors.fill:   parent
                             hoverEnabled:   true
-                            onClicked:      sendServoCommand(servoNumber, parseInt(highPwm.text))
+                            onClicked:      _activeVehicle.servoTest(servoNumber, parseInt(highPwm.text), true)     //sendServoCommand(servoNumber, parseInt(highPwm.text))
                         }
                     }
 
