@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Window
+import QtCore
 
 import QGroundControl
 import QGroundControl.Controls
@@ -28,6 +29,92 @@ ApplicationWindow {
     MainWindowSavedState {
         window: mainWindow
     }
+    
+    // ── Swarm video feed state ────────────────────────────────────────────────
+    // Exposed as mainWindow.swarmState so FlyView and VideoSettings can access it.
+    property alias swarmState: swarmState
+
+
+    // ── Swarm video feed state ────────────────────────────────────────────────
+    // Flat QtObject — visible to ALL QML children (FlyView, VideoSettings, etc.)
+    // by accessing mainWindow.swarmState from anywhere.
+    // No singleton registration needed — MainRootWindow is always alive.
+    QtObject {
+        id: swarmState
+
+        // RTSP links — empty string means not configured
+        property string link0:   _s.link0
+        property string link1:   _s.link1
+        property string link2:   _s.link2
+        property string link3:   _s.link3
+
+        // Active flags — true means show in FlyView PIP
+        property bool   active0: _s.active0
+        property bool   active1: _s.active1
+        property bool   active2: _s.active2
+        property bool   active3: _s.active3
+
+        // Labels
+        property string label0:  _s.label0
+        property string label1:  _s.label1
+        property string label2:  _s.label2
+        property string label3:  _s.label3
+
+        // Persistent backing store — writes to disk, reads on startup
+        property var _s: Settings {
+            category:       "SwarmFeeds"
+            property string link0:   ""
+            property string link1:   ""
+            property string link2:   ""
+            property string link3:   ""
+            property bool   active0: false
+            property bool   active1: false
+            property bool   active2: false
+            property bool   active3: false
+            property string label0:  "URL 1"
+            property string label1:  "URL 2"
+            property string label2:  "URL 3"
+            property string label3:  "URL 4"
+        }
+
+        // ── Mutation functions called by VideoSettings ────────────────────────
+        function setLink(index, url) {
+            switch(index) {
+                case 0: link0 = url; _s.link0 = url; if (!url) setActive(0, false); break
+                case 1: link1 = url; _s.link1 = url; if (!url) setActive(1, false); break
+                case 2: link2 = url; _s.link2 = url; if (!url) setActive(2, false); break
+                case 3: link3 = url; _s.link3 = url; if (!url) setActive(3, false); break
+            }
+        }
+
+        function setActive(index, val) {
+            var links = [link0, link1, link2, link3]
+            var ok    = val && links[index] !== ""
+            switch(index) {
+                case 0: active0 = ok; _s.active0 = ok; break
+                case 1: active1 = ok; _s.active1 = ok; break
+                case 2: active2 = ok; _s.active2 = ok; break
+                case 3: active3 = ok; _s.active3 = ok; break
+            }
+        }
+
+        function setLabel(index, val) {
+            switch(index) {
+                case 0: label0 = val; _s.label0 = val; break
+                case 1: label1 = val; _s.label1 = val; break
+                case 2: label2 = val; _s.label2 = val; break
+                case 3: label3 = val; _s.label3 = val; break
+            }
+        }
+
+        function setAllActive(val) {
+            active0 = val && link0 !== ""; _s.active0 = active0
+            active1 = val && link1 !== ""; _s.active1 = active1
+            active2 = val && link2 !== ""; _s.active2 = active2
+            active3 = val && link3 !== ""; _s.active3 = active3
+        }
+    }
+
 
     QtObject {
         id: firstRunPromptManager

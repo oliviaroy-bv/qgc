@@ -21,5 +21,6 @@ qt_add_qml_module(ToolbarModule
         TelemetryRSSIIndicator.qml
         VehicleGPSIndicator.qml
         GlassIndicatorPanel.qml
+        AdminControl.qml
     NO_PLUGIN
 )

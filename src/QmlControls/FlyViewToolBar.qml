@@ -204,7 +204,8 @@ import QGroundControl.Controls
 import QGroundControl.FlyView
 
 Item {
-    required property var guidedValueSlider
+    // required property var guidedValueSlider
+    property var guidedValueSlider: null
 
     // ── NEW: pass your map item from FlyView.qml so blur can sample it
     //   In FlyView.qml, use:  FlyViewToolBar { mapSourceItem: flightMap; ... }
