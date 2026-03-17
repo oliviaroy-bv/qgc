@@ -817,6 +817,11 @@ Item {
         mapSourceItem: mapControl
         visible:       !QGroundControl.videoManager.fullScreen
 
+        // onCollapseChanged: function(collapsed) {
+        //     // Hide toolstrip when bar is collapsed, show when expanded
+        //     toolstrip.visible = !collapsed
+        // }
+
         onLockChanged: function(locked) {
             if (!locked) {
                 var absX = bottomCenterTelemetryBar.x
@@ -1037,13 +1042,19 @@ Item {
             }
         }
 
+        readonly property bool _isSelected: mainWindow.swarmState &&
+                                            mainWindow.swarmState.selectedDroneIndex === droneIndex
+
         // Glass border — highlights on hover
         Rectangle {
             anchors.fill:  parent
             radius:        6
             color:         "transparent"
-            border.color:  _pipMa.containsMouse ? Qt.rgba(0,0.83,1,0.80) : Qt.rgba(1,1,1,0.30)
-            border.width:  1
+            // border.color:  _pipMa.containsMouse ? Qt.rgba(0,0.83,1,0.80) : Qt.rgba(1,1,1,0.30)
+            border.color:  _pipBox._isSelected  ? Qt.rgba(1.0,0.65,0.10,0.90) :
+                           _pipMa.containsMouse  ? Qt.rgba(0,0.83,1,0.80)      :
+                                                   Qt.rgba(1,1,1,0.30)
+            border.width:  _pipBox._isSelected ? 2 : 1
             Behavior on border.color { ColorAnimation { duration: 120 } }
         }
 
@@ -1080,9 +1091,51 @@ Item {
                     text:           droneLabel
                     font.pixelSize: ScreenTools.defaultFontPixelHeight * 0.65
                     font.weight:    Font.Medium
-                    color:          Qt.rgba(1,1,1,0.88)
+                    color:          _pipBox._isSelected ? Qt.rgba(1.0,0.65,0.10,1) : Qt.rgba(1,1,1,0.88)     //Qt.rgba(1,1,1,0.88)
                     elide:          Text.ElideRight
-                    width:          parent.width - _expandHint.width - 10
+                    width:          parent.width - _controlBtn.width - _expandHint.width - 10
+                    Behavior on color { ColorAnimation { duration: 120 } }
+                }
+
+                // Gimbal control select button
+                Rectangle {
+                    id:                     _controlBtn
+                    anchors.verticalCenter: parent.verticalCenter
+                    width:                  ScreenTools.defaultFontPixelHeight * 1.4
+                    height:                 ScreenTools.defaultFontPixelHeight * 1.4
+                    radius:                 3
+                    color:                  _pipBox._isSelected
+                                                ? Qt.rgba(1.0,0.55,0.10,0.80)
+                                                : _ctrlMa.containsMouse
+                                                      ? Qt.rgba(1,1,1,0.20)
+                                                      : Qt.rgba(1,1,1,0.08)
+                    border.color:           _pipBox._isSelected
+                                                ? Qt.rgba(1.0,0.65,0.10,1)
+                                                : Qt.rgba(1,1,1,0.25)
+                    border.width:           1
+                    Behavior on color { ColorAnimation { duration: 100 } }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text:           "🎮"
+                        font.pixelSize: ScreenTools.defaultFontPixelHeight * 0.70
+                    }
+
+                    MouseArea {
+                        id:           _ctrlMa
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape:  Qt.PointingHandCursor
+                        onClicked: {
+                            if (mainWindow.swarmState) {
+                                // Toggle — clicking same drone deselects
+                                if (mainWindow.swarmState.selectedDroneIndex === droneIndex)
+                                    mainWindow.swarmState.selectDrone(-1)
+                                else
+                                    mainWindow.swarmState.selectDrone(droneIndex)
+                            }
+                        }
+                    }
                 }
 
                 Text {
@@ -1099,7 +1152,12 @@ Item {
         // Tap to expand fullscreen
         MouseArea {
             id:           _pipMa
-            anchors.fill: parent
+            // anchors.fill: parent
+            anchors.top:  parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            // Stop above the label strip so control/expand buttons get their clicks
+            height:       parent.height - ScreenTools.defaultFontPixelHeight * 1.8
             hoverEnabled: true
             cursorShape:  Qt.PointingHandCursor
             onClicked: {

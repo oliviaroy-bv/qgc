@@ -60,6 +60,26 @@ ApplicationWindow {
         property string label2:  _s.label2
         property string label3:  _s.label3
 
+        property int    selectedDroneIndex: -1
+        // IP extracted from the selected drone's RTSP URL — read by GimbalControl
+        property string selectedDroneIP:    "192.168.144.108"
+        property string selectedDroneLabel: ""
+
+        // Extract IP from rtsp://ip:port/path
+        function extractIP(rtspUrl) {
+            if (!rtspUrl || rtspUrl === "") return ""
+            var match = rtspUrl.match(/rtsp:\/\/([^:/]+)/)
+            return match ? match[1] : ""
+        }
+
+        function selectDrone(index) {
+            var links  = [link0,  link1,  link2,  link3]
+            var labels = [label0, label1, label2, label3]
+            selectedDroneIndex = index
+            selectedDroneIP    = index >= 0 ? extractIP(links[index]) : "192.168.144.108"
+            selectedDroneLabel = index >= 0 ? labels[index] : ""
+        }
+
         // Persistent backing store — writes to disk, reads on startup
         property var _s: Settings {
             category:       "SwarmFeeds"

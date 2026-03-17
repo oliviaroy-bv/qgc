@@ -15,6 +15,21 @@ Item {
     property int    cameraPort: 5000
     property bool   gimbalEnabled: false  // Default: OFF
 
+    // ── Sync cameraIP from swarmState whenever selection changes ─────────────
+    // If no drone selected, fall back to the hardcoded default IP
+    Connections {
+        target: mainWindow.swarmState ? mainWindow.swarmState : null
+        ignoreUnknownSignals: true
+        function onSelectedDroneIPChanged() {
+            var ip = mainWindow.swarmState.selectedDroneIP
+            if (ip && ip !== "") {
+                udpSender.cameraIP = ip
+            } else {
+                udpSender.cameraIP = "192.168.144.108"  // fallback to default
+            }
+        }
+    }
+
     //Toggle Button
     Rectangle {
         id:                 toggleContainer
@@ -69,6 +84,42 @@ Item {
                 }
             }
         }
+    }
+
+    // ── Active drone indicator — shows which drone is being controlled ────────
+    Rectangle {
+        id:                     droneIndicator
+        anchors.left:           parent.left
+        anchors.top:            parent.top
+        anchors.topMargin:      5
+        height:                 20
+        width:                  labelText.implicitWidth + 12
+        radius:                 4
+        visible:                mainWindow.swarmState && mainWindow.swarmState.selectedDroneIndex >= 0
+        color:                  Qt.rgba(1.0, 0.55, 0.10, 0.25)
+        border.color:           Qt.rgba(1.0, 0.65, 0.10, 0.70)
+        border.width:           1
+
+        Text {
+            id:               labelText
+            anchors.centerIn: parent
+            text:             mainWindow.swarmState ? mainWindow.swarmState.selectedDroneLabel : ""
+            font.pixelSize:   9
+            font.weight:      Font.Medium
+            color:            Qt.rgba(1.0, 0.80, 0.30, 1.0)
+        }
+    }
+
+    // No drone selected warning
+    Text {
+        anchors.left:           parent.left
+        anchors.top:            parent.top
+        anchors.topMargin:      5
+        visible:                mainWindow.swarmState && mainWindow.swarmState.selectedDroneIndex < 0
+        text:                   "No drone\nselected"
+        font.pixelSize:         8
+        color:                  Qt.rgba(1,1,1,0.35)
+        lineHeight:             1.2
     }
 
     //Direct Pitch UP - Above Gimbal Circle
@@ -151,7 +202,9 @@ Item {
 
         GimbalUDPSender {
             id: udpSender
-            cameraIP: "192.168.144.108"
+            cameraIP:   mainWindow.swarmState && mainWindow.swarmState.selectedDroneIP !== ""
+                            ? mainWindow.swarmState.selectedDroneIP
+                            : "192.168.144.108"
             cameraPort: 5000
         }
 
@@ -169,7 +222,7 @@ Item {
 
         function sendGimbalCommand(command) {
             console.log("========================================")
-            console.log("GIMBAL COMMAND:", command)
+            console.log("GIMBAL COMMAND:", command, "→", udpSender.cameraIP)
             console.log("========================================")
             // tcpSender.sendCommand(command)
             if (gimbalEnabled) {
